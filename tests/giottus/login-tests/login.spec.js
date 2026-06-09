@@ -9,11 +9,17 @@ test.use({
   }
 });
 
+test.use({
+  video: 'on',
+  launchOptions: {
+    slowMo: 500
+  }
+});
+
 test('login test', async ({page}) => {
 
    
     await page.goto('https://stage3.giottus.com/')
-    // await page.pause();
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByRole('textbox', { name: 'Email address' }).click();
     await page.getByRole('textbox', { name: 'Email address' }).fill('Selva@giottus.com');
@@ -22,6 +28,8 @@ test('login test', async ({page}) => {
     await page.getByRole('button', { name: 'Login' }).click();
     await page.locator('div').filter({ hasText: /^Allow Giottus to access your location$/ }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).fill('123456');
-    // await page.close();    
+    await page.getByRole('link', { name: 'more more' }).click();
+    await page.getByRole('link', { name: 'logout logout' }).click();
+    await page.close();    
     
 })
