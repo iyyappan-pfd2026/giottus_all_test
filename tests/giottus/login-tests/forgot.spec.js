@@ -88,7 +88,7 @@ test.skip('forgot password test with password and confirm password not match', a
     await page.getByRole('textbox', { name: 'Email address' }).fill('iyyappan@giottus.com');
     await page.getByRole('button', { name: 'Reset Password' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).click();
-    await page.getByRole('textbox', { name: 'Enter code here' }).fill('000000');
+    await page.getByRole('textbox', { name: 'Enter code here' }).fill('123456');
     await page.pause();
     await page.getByRole('textbox', { name: 'Enter New Password' }).click();
     await page.getByRole('textbox', { name: 'Enter New Password' }).fill('Iyyappan@123');
@@ -110,7 +110,7 @@ test('forgot password test with password not meet the password policy', async ({
     await page.getByRole('textbox', { name: 'Email address' }).fill('iyyappan@giottus.com');
     await page.getByRole('button', { name: 'Reset Password' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).click();
-    await page.getByRole('textbox', { name: 'Enter code here' }).fill('000000');
+    await page.getByRole('textbox', { name: 'Enter code here' }).fill('123456');
     await page.pause();
     await page.getByRole('textbox', { name: 'Enter New Password' }).click();
     await page.getByRole('textbox', { name: 'Enter New Password' }).fill('123456789');
