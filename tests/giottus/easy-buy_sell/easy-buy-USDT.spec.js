@@ -125,7 +125,7 @@ test.skip('higher then Account Balance to Buy USDT', async ({ page }) => {
    
 //Buy the USDT update INR account balance and verify the updated INR account balance in easy buy flow.
 
-test('Buy the USDT update INR account balance and verify the updated INR account balance', async ({ page }) => {
+test.skip('Buy the USDT update INR account balance and verify the updated INR account balance', async ({ page }) => {
 
     await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
     await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();

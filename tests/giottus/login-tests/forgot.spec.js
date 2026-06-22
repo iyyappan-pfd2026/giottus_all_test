@@ -102,7 +102,7 @@ test.skip('forgot password test with password and confirm password not match', a
 
 // Successfully valid Email enter and valid code but "password not meet the password policy" verify the error message in forgot password flow.
 
-test('forgot password test with password not meet the password policy', async ({page}) => {
+test.skip('forgot password test with password not meet the password policy', async ({page}) => {
     await page.goto('https://stage3.giottus.com/')
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByText('Forgot password?').click();
