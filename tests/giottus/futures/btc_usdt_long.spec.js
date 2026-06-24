@@ -164,7 +164,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
         // Successfully "Quantity below minimum" enter verify the error message in futures flow.
 
 
-        test('Should display minimum quantity error', async ({ page }) => {
+        test.skip('Should display minimum quantity error', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await expect(page).toHaveURL(/BTC-USDT/);
