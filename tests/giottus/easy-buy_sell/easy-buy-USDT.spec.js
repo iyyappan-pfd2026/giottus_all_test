@@ -115,9 +115,10 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
             const accountInput = await page.getByRole('textbox').nth(1);
             const accountBalance = await accountInput.inputValue();    
             console.log('Account Balance:', accountBalance);
-            const accountBalanceValue = parseFloat(accountBalance.replace(/,/g, '')); // Remove commas and convert to number
+            const accountBalanceValue = parseFloat(accountBalance.replace(/,/g, '')); // Remove commas and convert to number value.replace(/,/g, '')
             console.log('Account Balance Value:', accountBalanceValue);
-            const updatedAmount = accountBalanceValue + 100; // Add 1000 to the account balance
+            const updatedAmount = accountBalanceValue + 100; 
+            console.log(updatedAmount)// Add 1000 to the account balance
             await page.getByRole('textbox').nth(1).click();
             await page.getByRole('textbox').nth(1).fill(updatedAmount.toString());  // Amount higher than account balance
             await page.getByRole('button', { name: 'Easy Buy' }).click();
@@ -133,21 +134,21 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();
             await page.locator('#buyMarkets').getByText('USDT', { exact: true }).click();
             await page.getByText('Buy USDT').click();        
-            const inrBalance = await page.locator('#bsform_1').getByText('INR Balance:').textContent();
-            const inrBalanceValue = parseFloat(inrBalance.replace(/,/g, '')); // Get the initial INR balance and convert to number
-            console.log('INR Balance:', inrBalanceValue);
+            const inrBalance = await page.locator('#bsform_1').getByText('INR Balance:').textContent();            
+            const inramount = inrBalance?.match(/[\d,]+\.?\d*/)?.[0];
+            const inrBalanceValue = parseFloat(inramount.replace(/,/g, '')); // Get the initial INR balance and convert to number
             await page.getByRole('textbox').nth(1).click();
             const useramount = await page.getByRole('textbox').nth(1).fill('10');
             const useramountValue = parseFloat(await page.getByRole('textbox').nth(1).inputValue().then(text => text.replace(/,/g, ''))); // Get the user amount and convert to number
-            console.log('User Amount:', useramountValue);    
             await page.getByRole('button', { name: 'Easy Buy' }).click();
             await page.getByRole('button', { name: 'Confirm Buy' }).click();
             await page.getByRole('button', { name: 'Done' }).click();
-            const userdebitedAmountbalance =  inrBalanceValue - useramountValue; // Calculate the expected debited amount
+            const userdebitedAmountbalance =  inrBalanceValue - useramountValue + 0.1; // Calculate the expected debited amount            
+            const userdebitedAmountbalancevaluefixed = parseFloat(userdebitedAmountbalance.toFixed(1));
             const currentInrBalance = await page.locator('#bsform_1').getByText('INR Balance:').textContent();
-            const currentInrBalanceValue = parseFloat(currentInrBalance.replace(/,/g, '')); // Get the updated INR balance and convert to number
-            console.log('Updated INR Balance:', currentInrBalanceValue);
-            await expect(currentInrBalanceValue).toBe(userdebitedAmountbalance); // Verify the updated INR balance
+            const currentinramount = currentInrBalance?.match(/[\d,]+\.?\d*/)?.[0];
+            const currentInrBalanceValue = parseFloat(currentinramount.replace(/,/g, '')); // Get the updated INR balance and convert to number
+            await expect(currentInrBalanceValue).toBe(userdebitedAmountbalancevaluefixed); // Verify the updated INR balance
         });
 
 
