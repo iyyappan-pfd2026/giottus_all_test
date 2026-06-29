@@ -58,7 +58,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
 
 
 
-    test.skip('Amount was 0', async ({ page }) => {
+    test.skip('Quantity was 0', async ({ page }) => {
 
         
 
@@ -84,7 +84,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
             await page.getByRole('textbox').first().click();
             await page.getByRole('textbox').first().fill('0.1');
             await page.getByRole('button', { name: 'Easy Sell' }).click();
-            await expect(page.getByText('You cannot sell less than 0.')).toBeVisible();
+            await expect(page.getByText('You cannot sell less than 0.12')).toBeVisible();
             await page.getByRole('img', { name: 'close', exact: true }).click();
             
 
@@ -101,7 +101,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
             await page.getByRole('textbox').first().click();
             await page.getByRole('textbox').first().fill('1,0001');
             await page.getByRole('button', { name: 'Easy Sell' }).click();
-            await expect(page.getByText('You cannot sell more than 10,')).toBeVisible();
+            await expect(page.getByText('You cannot sell more than 10,000')).toBeVisible();
             await page.getByRole('img', { name: 'close', exact: true }).click();
 
 

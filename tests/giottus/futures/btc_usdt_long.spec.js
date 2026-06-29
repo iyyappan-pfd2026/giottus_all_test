@@ -57,7 +57,7 @@ test.describe('Giottus Futures BTC/USDT Long Market Order Flow', () => {
             await page.getByText('LONG', { exact: true }).click();
             const orderSizeInput = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
             const amount = parseFloat(orderSizeInput.match(/[\d,]+/)[0].replace(/,/g, ''));
-            const newAmount = amount - 100;
+            const newAmount = amount - 10;
             await page.locator('.orderSizeInput').nth(0).click();  
             await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString()); // 1 to below Min amount USDT
             await page.getByRole('button', { name: 'Buy / Long' }).click();
@@ -74,10 +74,13 @@ test.describe('Giottus Futures BTC/USDT Long Market Order Flow', () => {
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('LONG', { exact: true }).click();       
             await page.getByRole('combobox').selectOption('BTC');
-            await page.getByRole('textbox', { name: 'Min Qty: 0.004 BTC' }).click();
-            await page.getByRole('textbox', { name: 'Min Qty: 0.004 BTC' }).fill('0.001'); // 0.001 to below Min quantity BTC
+            const minQuantity = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
+            const quantity = minQuantity?.match(/[\d,]+\.?\d*/)?.[0];
+            const newQuantity = quantity - 0.0001;
+            await page.locator('.orderSizeInput').nth(0).click();  
+            await page.locator('.orderSizeInput').nth(0).fill(newQuantity.toString()); // 0.001 to below Min quantity BTC
             await page.getByRole('button', { name: 'Buy / Long' }).click();
-            expect(page.getByText('Minimum quantity should be 0.004 BTC')).toBeVisible();
+            await expect(page.getByText(/Minimum quantity should be/)).toBeVisible();
             await page.getByRole('img', { name: 'close', exact: true }).click();
 
         });
@@ -100,26 +103,24 @@ test.describe('Giottus Futures BTC/USDT Long Market Order Flow', () => {
 
 });
 
-test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
+test.describe('Giottus Futures BTC/USDT Long Limit Order Flow', () => {
 
-        // Successfully "Short Limit Order purchase Flow" for BTC/USDT in futures flow.
+        // Successfully "Long Limit Order purchase Flow" for BTC/USDT in futures flow.
 
-        test.skip('Successful Short Limit Order purchase', async ({ page }) => {
+        test.skip('Successful Long Limit Order purchase', async ({ page }) => {
         
         await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
-        await page.getByText('LONG', { exact: true }).click();  
-
+        await page.getByText('LONG', { exact: true }).click(); 
         await page.locator('#bsform_1').getByText('Limit Order').click();
         const currentPrice = await page.getByRole('textbox').first().inputValue();
         const updatedPrice = (parseFloat(currentPrice.replace(/,/g, '')) + 1000).toString(); // Add to the current price
         await page.getByRole('textbox').first().click();
         await page.getByRole('textbox').first().fill(updatedPrice.toString()); // Enter a price higher than the current price
-
         const orderSizeInput = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
         const amount = parseFloat(orderSizeInput.match(/[\d,]+/)[0].replace(/,/g, ''));
         const newAmount = amount + 100;
         await page.locator('.orderSizeInput').nth(0).click();  
-        await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString());     
+        await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString());         
         await page.getByRole('button', { name: 'Buy / Long' }).click();    
         await page.getByRole('button', { name: 'Confirm long' }).click();
         await expect(page.getByText('Order created successfully.')).toBeVisible();
@@ -152,7 +153,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
             await page.locator('#bsform_1').getByText('Limit Order').click(); 
             const orderSizeInput = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
             const amount = parseFloat(orderSizeInput.match(/[\d,]+/)[0].replace(/,/g, ''));
-            const newAmount = amount - 100;
+            const newAmount = amount - 10;
             await page.locator('.orderSizeInput').nth(0).click();  
             await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString()); // 1 to below Min amount USDT
             await page.getByRole('button', { name: 'Buy / Long' }).click();
@@ -177,6 +178,27 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
             expect(page.getByText('Minimum quantity should be 0.002 BTC')).toBeVisible();
             await page.getByRole('img', { name: 'close', exact: true }).click();
         });
+
+
+        test.skip('Not Enter Price or below 500', async ({ page }) => {
+        
+            await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
+            await expect(page).toHaveURL(/BTC-USDT/);
+            await page.getByText('LONG', { exact: true }).click();    
+            await page.locator('#bsform_1').getByText('Limit Order').click();       
+            await page.getByRole('textbox').first().click();
+            await page.getByRole('textbox').first().fill('');
+            const orderSizeInput = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
+            const amount = parseFloat(orderSizeInput.match(/[\d,]+/)[0].replace(/,/g, ''));
+            const newAmount = amount + 100;
+            await page.locator('.orderSizeInput').nth(0).click();  
+            await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString());
+            await page.getByRole('button', { name: 'Buy / Long' }).click();
+            await expect(page.getByText('Price is below the minimum')).toBeVisible();
+            await page.getByRole('img', { name: 'close', exact: true }).click();
+
+        });      
+        
 
 
     });
