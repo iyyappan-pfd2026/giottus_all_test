@@ -44,7 +44,6 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
             await page.locator('.orderSizeInput').nth(1).fill('300');
             await page.getByRole('button', { name: 'Sell / Short' }).click();
             await page.getByRole('button', { name: 'Confirm short' }).click();
-            await page.getByRole('button', { name: 'Confirm long' }).click();    
             await expect(page.getByText('Order created successfully.')).toBeVisible();
 
         });
@@ -87,7 +86,7 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
             await page.getByRole('combobox').selectOption('BTC');
             const minQuantity = await page.locator('.orderSizeInput').nth(1).getAttribute('placeholder');
             const quantity = minQuantity?.match(/[\d,]+\.?\d*/)?.[0];
-            const newQuantity = quantity - 0.0001;
+            const newQuantity = (parseFloat(quantity) - 0.0001);
             await page.locator('.orderSizeInput').nth(1).click();  
             await page.locator('.orderSizeInput').nth(1).fill(newQuantity.toString()); 
             await page.getByRole('button', { name: 'Sell / Short' }).click();
@@ -137,7 +136,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
 
 
 
-        test.skip('Successful Short Limit Order purchase', async ({ page }) => {
+        test.skip('Successful Short Limit Order purchase for USDT', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('SHORT', { exact: true }).click();
@@ -151,6 +150,27 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
             const newAmount = amount + 200;
             await page.locator('.orderSizeInput').nth(1).click();  
             await page.locator('.orderSizeInput').nth(1).fill(newAmount.toString()); 
+            await page.getByRole('button', { name: 'Sell / Short' }).click();
+            await page.getByRole('button', { name: 'Confirm short' }).click();
+            await expect(page.getByText('Order created successfully.')).toBeVisible();
+
+        });
+
+        test.skip('Successful Short Limit Order purchase for BTC', async ({ page }) => {
+        
+            await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
+            await page.getByText('SHORT', { exact: true }).click();
+            await page.locator('#bsform_2').getByText('Limit Order').click();
+            const currentPrice = await page.getByRole('textbox').first().inputValue();
+            const updatedPrice = (parseFloat(currentPrice.replace(/,/g, '')) - 500)
+            await page.getByRole('textbox').first().click();
+            await page.getByRole('textbox').first().fill(updatedPrice.toString());
+            await page.getByRole('combobox').selectOption('BTC');
+            const minQuantity = await page.locator('.orderSizeInput').nth(1).getAttribute('placeholder');
+            const quantity = minQuantity?.match(/[\d,]+\.?\d*/)?.[0];
+            const newQuantity = (parseFloat(quantity.replace(/,/g, '')) + 0.003);
+            await page.locator('.orderSizeInput').nth(1).click();  
+            await page.locator('.orderSizeInput').nth(1).fill(newQuantity.toString()); 
             await page.getByRole('button', { name: 'Sell / Short' }).click();
             await page.getByRole('button', { name: 'Confirm short' }).click();
             await expect(page.getByText('Order created successfully.')).toBeVisible();

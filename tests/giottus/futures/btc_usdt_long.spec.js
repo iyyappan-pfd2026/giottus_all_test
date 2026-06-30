@@ -180,21 +180,21 @@ test.describe('Giottus Futures BTC/USDT Long Limit Order Flow', () => {
         });
 
 
-        test.skip('Not Enter Price or below 500', async ({ page }) => {
+        test.skip('Not Enter Price or below 556.8', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await expect(page).toHaveURL(/BTC-USDT/);
             await page.getByText('LONG', { exact: true }).click();    
             await page.locator('#bsform_1').getByText('Limit Order').click();       
             await page.getByRole('textbox').first().click();
-            await page.getByRole('textbox').first().fill('');
+            await page.getByRole('textbox').first().fill(''); // Empty or Below 566.8
             const orderSizeInput = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
             const amount = parseFloat(orderSizeInput.match(/[\d,]+/)[0].replace(/,/g, ''));
             const newAmount = amount + 100;
             await page.locator('.orderSizeInput').nth(0).click();  
             await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString());
             await page.getByRole('button', { name: 'Buy / Long' }).click();
-            await expect(page.getByText('Price is below the minimum')).toBeVisible();
+            await expect(page.getByText('Price is below the minimum allowed price 556.8')).toBeVisible();
             await page.getByRole('img', { name: 'close', exact: true }).click();
 
         });      
