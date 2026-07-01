@@ -113,20 +113,35 @@ test.describe('Giottus Futures BTC/USDT Long Limit Order Flow', () => {
         await page.getByText('LONG', { exact: true }).click(); 
         await page.locator('#bsform_1').getByText('Limit Order').click();
         const currentPrice = await page.getByRole('textbox').first().inputValue();
-        const updatedPrice = (parseFloat(currentPrice.replace(/,/g, '')) + 1000).toString(); // Add to the current price
+        const updatedPrice = (parseFloat(currentPrice.replace(/,/g, '')) - 1000).toString(); // Subtract from the current price
         await page.getByRole('textbox').first().click();
-        await page.getByRole('textbox').first().fill(updatedPrice.toString()); // Enter a price higher than the current price
-        const orderSizeInput = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
-        const amount = parseFloat(orderSizeInput.match(/[\d,]+/)[0].replace(/,/g, ''));
-        const newAmount = amount + 100;
-        await page.locator('.orderSizeInput').nth(0).click();  
-        await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString());         
+        await page.getByRole('textbox').first().fill(updatedPrice.toString()); // Enter a price lower than the current price
+        // const orderSizeInput = await page.locator('.orderSizeInput').nth(0).getAttribute('placeholder');
+        // const amount = parseFloat(orderSizeInput.match(/[\d,]+/)[0].replace(/,/g, ''));
+        // const newAmount = amount + 100;
+        // await page.locator('.orderSizeInput').nth(0).click();  
+        // await page.locator('.orderSizeInput').nth(0).fill(newAmount.toString()); 
+        await page.getByRole('combobox').selectOption('BTC');
+        await page.getByRole('textbox', { name: 'Min Qty: 0.002 BTC' }).click();
+        await page.getByRole('textbox', { name: 'Min Qty: 0.002 BTC' }).fill('0.005');               
         await page.getByRole('button', { name: 'Buy / Long' }).click();    
-        await page.getByRole('button', { name: 'Confirm long' }).click();
-        await expect(page.getByText('Order created successfully.')).toBeVisible();
+        await page.getByRole('button', { name: 'Confirm long' }).click();        
+        await expect(page.getByText('Order created successfully.')).toBeVisible();    
+       
+            await page.getByText('open orders').click();
+            const table = await page.locator('#table_6')
+            const rows = await table.locator('tbody tr');
+            const matchRow = rows.filter({
 
-        });
+                    has: page.locator('td'),
+                    hasText: updatedPrice
 
+                })
+            await expect(page.locator('td', { hasText: updatedPrice })).toBeVisible();  
+        
+
+        });     
+     
         // Successfully "No Enter amount and Quantity" enter verify the error message in futures flow.
 
         test.skip('Should display error for no amount and quantity', async ({ page }) => {
