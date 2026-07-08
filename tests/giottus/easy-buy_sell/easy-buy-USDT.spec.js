@@ -37,7 +37,7 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
 
         // Successfully "Easy Buy Flow" for USDT in easy buy flow.
 
-        test.skip('Easy Buy Flow', async ({ page }) => {
+        test('Easy Buy Flow', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();
@@ -47,7 +47,7 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
             await page.getByRole('textbox').nth(1).fill('1');  // Amount 1 INR to 20,00,000 INR
             await page.getByRole('button', { name: 'Easy Buy' }).click();
             await page.getByRole('button', { name: 'Confirm Buy' }).click();
-            await expect(page.getByText('Success Simple Order Processed')).toBeVisible();
+            await expect(page.getByText('Simple Order Processed')).toBeVisible();
             await page.getByRole('button', { name: 'Done' }).click();
         });
 
@@ -56,7 +56,7 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
 
         // Successfully "Amount 0 " enter verify the error message in easy buy flow.
 
-        test.skip('Amount was 0', async ({ page }) => {
+        test('Amount was 0', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();
@@ -73,7 +73,7 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
 
         // Successfully "Min amount below 0 to 0.9" enter verify the error message in easy buy flow.
 
-        test.skip('Min amount below 0 to 0.9', async ({ page }) => {
+        test('Min amount below 0 to 0.9', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();
@@ -90,7 +90,7 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
 
         // Successfully "Max amount for 20,00,001 " enter verify the error message in easy buy flow.
 
-        test.skip('Max amount for 20,00,001 ', async ({ page }) => {
+        test('Max amount for 20,00,001 ', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();
@@ -105,7 +105,7 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
 
         // Successfully "Higher then Account Balance to Buy USDT" enter verify the error message in easy buy flow.
 
-        test.skip('higher then Account Balance to Buy USDT', async ({ page }) => {
+        test('higher then Account Balance to Buy USDT', async ({ page }) => {
 
             
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
@@ -128,7 +128,7 @@ test.describe('Giottus Easy Buy USDT Flow', () => {
         
         //Buy the USDT update INR account balance and verify the updated INR account balance in easy buy flow.
 
-        test.skip('Buy the USDT update INR account balance and verify the updated INR account balance', async ({ page }) => {
+        test('Buy the USDT update INR account balance and verify the updated INR account balance', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();

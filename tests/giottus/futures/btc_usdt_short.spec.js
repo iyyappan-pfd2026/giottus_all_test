@@ -36,7 +36,7 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
 
        
 
-        test.skip('Successful Short Order purchase for USDT amount', async ({ page }) => {
+        test('Successful Short Order purchase for USDT amount', async ({ page }) => {
             
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();                    
             await page.getByText('SHORT', { exact: true }).click();
@@ -48,7 +48,7 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
 
         });
 
-        test.skip('Successful Short Order purchase for BTC Quantity', async ({ page }) => {
+        test('Successful Short Order purchase for BTC Quantity', async ({ page }) => {
             
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();     
             await page.getByText('SHORT', { exact: true }).click();
@@ -62,7 +62,7 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
 
         });
 
-       test.skip('Should display minimum amount error', async ({ page }) => {
+       test('Should display minimum amount error', async ({ page }) => {
 
             
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();                    
@@ -79,7 +79,7 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
         });
 
 
-        test.skip('Should display minimum quantity error', async ({ page }) => {
+        test('Should display minimum quantity error', async ({ page }) => {
 
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();     
             await page.getByText('SHORT', { exact: true }).click();
@@ -96,7 +96,7 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
         });
 
 
-        test.skip('Should display error for no amount and quantity', async ({ page }) => {
+        test('Should display error for no amount and quantity', async ({ page }) => {
 
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();     
             await page.getByText('SHORT', { exact: true }).click();            
@@ -110,7 +110,7 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
 
         });
 
-        test.skip('Should display error for amount and quantity was 0', async ({ page }) => {
+        test('Should display error for amount and quantity was 0', async ({ page }) => {
 
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();     
             await page.getByText('SHORT', { exact: true }).click();   
@@ -129,6 +129,42 @@ test.describe('Giottus Futures BTC/USDT Short Market Order Flow', () => {
         });
 
 
+         test('Short Order purchase with test of TP and SL', async ({ page }) => {
+           
+            
+            await page.getByRole('link', { name: 'futures futures Sub menu' }).click();                    
+            await page.getByText('SHORT', { exact: true }).click();
+            const currentPrice = await page.getByRole('textbox').first().inputValue();
+            const updatedPrice = (parseFloat(currentPrice.replace(/,/g, '')).toString());
+            console.log('Current Price:', updatedPrice);
+            await page.locator('.orderSizeInput').nth(1).click();  
+            await page.locator('.orderSizeInput').nth(1).fill('300');
+            await page.locator('[id="tpsl-btn sell"]').click();            
+            await page.locator('#take-profit-input-Short').click();
+            const takeProfitPrice = (parseFloat(updatedPrice) - 100).toFixed(1).toString(); // Set take profit price above current price
+            console.log('Take Profit Price:', takeProfitPrice);
+            await page.locator('#take-profit-input-Short').fill(takeProfitPrice);
+            const stopLossPrice = (parseFloat(updatedPrice) + 100).toFixed(1).toString(); // Set stop loss price below current price
+            console.log('Stop Loss Price:', stopLossPrice);
+            await page.locator('#stop-loss-input-Short').click();
+            await page.locator('#stop-loss-input-Short').fill(stopLossPrice);
+            await page.getByRole('button', { name: 'Sell / Short' }).click();
+            await page.getByRole('button', { name: 'Confirm short' }).click();
+            await expect(page.getByText('Order created successfully.')).toBeVisible();  
+            await page.getByText('open orders').click({timeout: 5000});
+            const table = await page.locator('#table_6')
+            const rows = await table.locator('tbody tr');
+            const matchRow = rows.filter({
+
+                    has: page.locator('td'),
+                    hasText: updatedPrice
+
+                })
+            await expect(page.locator('td', { hasText: takeProfitPrice })).toBeVisible();  
+            await expect(page.locator('td', { hasText: stopLossPrice })).toBeVisible();
+         });
+
+
 });
 
 
@@ -136,7 +172,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
 
 
 
-        test.skip('Successful Short Limit Order purchase for USDT', async ({ page }) => {
+        test('Successful Short Limit Order purchase for USDT', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('SHORT', { exact: true }).click();
@@ -167,7 +203,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
 
         });
 
-        test.skip('Successful Short Limit Order purchase for BTC', async ({ page }) => {
+        test('Successful Short Limit Order purchase for BTC', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('SHORT', { exact: true }).click();
@@ -198,7 +234,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
 
         });
 
-        test.skip('Short Limit Order minimum amount error', async ({ page }) => {
+        test('Short Limit Order minimum amount error', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('SHORT', { exact: true }).click();
@@ -214,7 +250,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
 
         });
 
-        test.skip('Short Limit Order minimum quantity error', async ({ page }) => {
+        test('Short Limit Order minimum quantity error', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('SHORT', { exact: true }).click();
@@ -232,7 +268,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
         });
 
 
-        test.skip('Short Limit Order without Enter amount or quantity', async ({ page }) => {
+        test('Short Limit Order without Enter amount or quantity', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('SHORT', { exact: true }).click();
@@ -249,7 +285,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
         });
 
 
-        test.skip('Short Limit Order Enter amount or quantity was 0', async ({ page }) => {
+        test('Short Limit Order Enter amount or quantity was 0', async ({ page }) => {
         
             await page.getByRole('link', { name: 'futures futures Sub menu' }).click();
             await page.getByText('SHORT', { exact: true }).click();
@@ -271,7 +307,7 @@ test.describe('Giottus Futures BTC/USDT Short Limit Order Flow', () => {
 
 
 
-        test.skip('Short Limit Order price was empty or 0 or below minimum amount', async ({ page }) => {
+        test('Short Limit Order price was empty or 0 or below minimum amount', async ({ page }) => {
         
 
             // Test for empty price

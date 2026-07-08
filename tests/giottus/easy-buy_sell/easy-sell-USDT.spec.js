@@ -37,7 +37,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
 
     //Sucessfully Easy-buy-sell USDT sell folw
 
-    test.skip('Easy Buy Flow', async ({ page }) => {
+    test('Easy Buy Flow', async ({ page }) => {
 
         
 
@@ -58,7 +58,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
 
 
 
-    test.skip('Quantity was 0', async ({ page }) => {
+    test('Quantity was 0', async ({ page }) => {
 
         
 
@@ -75,7 +75,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
     });
 
 
-    test.skip('Min Quantity below 0 to 0.12', async ({ page }) => {
+    test('Min Quantity below 0 to 0.12', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();
@@ -91,7 +91,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
 
     });
 
-    test.skip('Max Quantity for 10001 ', async ({ page }) => {
+    test('Max Quantity for 10001 ', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();
@@ -107,7 +107,7 @@ test.describe('Giottus Easy Sell USDT Flow', () => {
 
     });
 
-    test.skip('Buy the USDT update INR account balance and verify the updated INR account balance', async ({ page }) => {
+    test('Buy the USDT update INR account balance and verify the updated INR account balance', async ({ page }) => {
 
             await page.getByRole('link', { name: 'easy&nbsp;buy/sell easy buy/' }).click();
             await page.getByText('Buy BTCSell BTC1 BTC65,01,094').click();

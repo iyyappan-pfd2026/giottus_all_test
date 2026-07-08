@@ -9,14 +9,13 @@ test.use({
 
 //"Successfully reset password" with valid email and code
 
-test.skip('forgot password test', async ({page}) => {
+test('forgot password test', async ({page}) => {
     await page.goto('https://stage3.giottus.com/')
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByText('Forgot password?').click();
     await page.getByRole('textbox', { name: 'Email address' }).click();
     await page.getByRole('textbox', { name: 'Email address' }).fill('iyyappan@giottus.com');
     await page.getByRole('button', { name: 'Reset Password' }).click();
-    await page.pause();
     await page.getByRole('textbox', { name: 'Enter code here' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).fill('123456');
     await page.getByRole('textbox', { name: 'Enter New Password' }).click();
@@ -31,7 +30,7 @@ test.skip('forgot password test', async ({page}) => {
 
 // Successfully "invalid Email" enter verify the error message in forgot password flow.
 
-test.skip('forgot password test with invalid email', async ({page}) => {
+test('forgot password test with invalid email', async ({page}) => {
     await page.goto('https://stage3.giottus.com/')
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByText('Forgot password?').click();
@@ -45,34 +44,32 @@ test.skip('forgot password test with invalid email', async ({page}) => {
 
 // Successfully valid Email enter and "invalid code" verify the error message in forgot password flow.
 
-test.skip('forgot password test with invalid code', async ({page}) => {
+test('forgot password test with invalid code', async ({page}) => {
     await page.goto('https://stage3.giottus.com/')
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByText('Forgot password?').click();
     await page.getByRole('textbox', { name: 'Email address' }).click();
     await page.getByRole('textbox', { name: 'Email address' }).fill('iyyappan@giottus.com');
     await page.getByRole('button', { name: 'Reset Password' }).click();
-    await page.pause();
     await page.getByRole('textbox', { name: 'Enter code here' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).fill('000000');
-    await expect(page.getByText('No Error Message')).toBeVisible({timeout: 30000});
+    await expect(page.getByText('Invalid OTP. Kindly enter the')).toBeVisible({timeout: 30000});
     await page.close();
     
 });
 
 // Successfully valid Email enter and "Expired code" verify the error message in forgot password flow.
 
-test.skip('forgot password test with Expired code', async ({page}) => {
+test('forgot password test with Expired code', async ({page}) => {
     await page.goto('https://stage3.giottus.com/')
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByText('Forgot password?').click();
     await page.getByRole('textbox', { name: 'Email address' }).click();
     await page.getByRole('textbox', { name: 'Email address' }).fill('iyyappan@giottus.com');
     await page.getByRole('button', { name: 'Reset Password' }).click();
-    await page.pause();
     await page.getByRole('textbox', { name: 'Enter code here' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).fill('000000');
-    await expect(page.getByText('No Error Message')).toBeVisible({timeout: 30000});
+    await expect(page.getByText('Invalid OTP. Kindly enter the')).toBeVisible({timeout: 30000});
     await page.close();
     
 });
@@ -80,7 +77,7 @@ test.skip('forgot password test with Expired code', async ({page}) => {
 
 // Successfully valid Email enter and valid code but "password and confirm password not match" verify the error message in forgot password flow.
 
-test.skip('forgot password test with password and confirm password not match', async ({page}) => {
+test('forgot password test with password and confirm password not match', async ({page}) => {
     await page.goto('https://stage3.giottus.com/')
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByText('Forgot password?').click();
@@ -89,7 +86,6 @@ test.skip('forgot password test with password and confirm password not match', a
     await page.getByRole('button', { name: 'Reset Password' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).fill('123456');
-    await page.pause();
     await page.getByRole('textbox', { name: 'Enter New Password' }).click();
     await page.getByRole('textbox', { name: 'Enter New Password' }).fill('Iyyappan@123');
     await page.getByRole('textbox', { name: 'Enter Confirm Password' }).click();
@@ -102,7 +98,7 @@ test.skip('forgot password test with password and confirm password not match', a
 
 // Successfully valid Email enter and valid code but "password not meet the password policy" verify the error message in forgot password flow.
 
-test.skip('forgot password test with password not meet the password policy', async ({page}) => {
+test('forgot password test with password not meet the password policy', async ({page}) => {
     await page.goto('https://stage3.giottus.com/')
     await page.getByRole('link', { name: 'login login' }).click();
     await page.getByText('Forgot password?').click();
@@ -111,7 +107,6 @@ test.skip('forgot password test with password not meet the password policy', asy
     await page.getByRole('button', { name: 'Reset Password' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).click();
     await page.getByRole('textbox', { name: 'Enter code here' }).fill('123456');
-    await page.pause();
     await page.getByRole('textbox', { name: 'Enter New Password' }).click();
     await page.getByRole('textbox', { name: 'Enter New Password' }).fill('123456789');
     await page.getByRole('textbox', { name: 'Enter Confirm Password' }).click();
